@@ -1,6 +1,10 @@
 #pragma once
-#include <QtWidgets/QMainWindow>
+#include <QMainWindow>
+#include <QPropertyAnimation>
+#include <memory>
+
 #include "ui_game.h"
+#include "Deck.h"
 
 class Game : public QMainWindow {
 	Q_OBJECT
@@ -8,7 +12,16 @@ class Game : public QMainWindow {
 public:
 	Game(QWidget* parent = Q_NULLPTR);
 
-private:
-	Ui::MainWindow gameWindow;
+public slots:
+	//void playAgain();
+	//void hit();
+	//void stand();
 
+private:
+	std::shared_ptr<Deck> deck;
+
+	QLabel* card = new QLabel(this);
+	QPropertyAnimation* animation;
+
+	Ui::MainWindow gameWindow;
 };

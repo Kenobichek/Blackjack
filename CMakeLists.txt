@@ -5,7 +5,7 @@ cmake_minimum_required (VERSION 3.16)
 
 project ("Blackjack")
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_AUTOMOC ON)
@@ -19,14 +19,17 @@ qt_standard_project_setup()
 
 file(GLOB libs "${PROJECT_SOURCE_DIR}/Lib/*")
 file(COPY ${libs} DESTINATION "${CMAKE_BINARY_DIR}")
+file(CREATE_LINK "${PROJECT_SOURCE_DIR}/Content" "${CMAKE_BINARY_DIR}/Content" SYMBOLIC)
 
 file(GLOB source_files "Source/*.h" "Source/*.cpp" "Source/*.ui")
+
+include_directories("Source")
 
 add_executable (Blackjack ${source_files})
 
 target_link_libraries(Blackjack PRIVATE Qt6::Widgets)
 
-set_target_properties(Blackjack PROPERTIES
-    WIN32_EXECUTABLE ON
-    MACOSX_BUNDLE ON
-)
+#set_target_properties(Blackjack PROPERTIES
+#    WIN32_EXECUTABLE ON
+#    MACOSX_BUNDLE ON
+#)
