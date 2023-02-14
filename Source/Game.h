@@ -1,27 +1,22 @@
 #pragma once
-#include <QMainWindow>
-#include <QPropertyAnimation>
-#include <memory>
 
-#include "ui_game.h"
 #include "Deck.h"
+#include "AbstractPlayer.h"
 
-class Game : public QMainWindow {
-	Q_OBJECT
+class Game;
 
+#include "PlayerInterface.h"
+#include <vector>
+
+class Game
+{
 public:
-	Game(QWidget* parent = Q_NULLPTR);
-
-public slots:
-	//void playAgain();
-	//void hit();
-	//void stand();
+	Game();
+	void cardsDistribution(const int numberCards);
 
 private:
+	int numberPlayers = 1;
 	std::shared_ptr<Deck> deck;
-
-	QLabel* card = new QLabel(this);
-	QPropertyAnimation* animation;
-
-	Ui::MainWindow gameWindow;
+	std::vector<std::shared_ptr<AbstractPlayer>> players;
+	std::vector<std::shared_ptr<PlayerInterface>> playerInterface;
 };

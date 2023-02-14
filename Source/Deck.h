@@ -11,10 +11,7 @@ public:
 	std::shared_ptr<Card> getCard();
 	bool isEmpty();
 
-protected:
-	void mousePressEvent(QMouseEvent* event);
-
 private:
-
+	std::shared_ptr<Card> createNewCard(const int, const Suit&);
 	std::vector<std::shared_ptr<Card>> deck;
 };
