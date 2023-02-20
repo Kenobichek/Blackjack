@@ -29,7 +29,7 @@ add_executable (Blackjack ${source_files})
 
 target_link_libraries(Blackjack PRIVATE Qt6::Widgets)
 
-#set_target_properties(Blackjack PROPERTIES
-#    WIN32_EXECUTABLE ON
-#    MACOSX_BUNDLE ON
-#)
+set_target_properties(Blackjack PROPERTIES
+    WIN32_EXECUTABLE ON
+    MACOSX_BUNDLE ON
+)
