@@ -30,7 +30,12 @@ int Player::getCash() const
 	return this->cash;
 }
 
-void Player::resetBet()
+void Player::getMoneyFromBet()
 {
-	this->bet = 0;
+	cash += this->bet * 2;
+}
+
+void Player::placeBet()
+{
+	cash -= this->bet;
 }

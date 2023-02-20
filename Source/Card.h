@@ -23,17 +23,43 @@ class Card
 public:
 	explicit Card(int, Suit);
 	int getValue() const;
-	std::shared_ptr<QRectF> getBoundingRect() const;
-	void setBoundingRect(const Suit& suit, const int pictureСard);
+	bool getIsHide() const;
+	void setPlayer(const bool bPlayer);
+	void setHide();
+	void setShow();
 
-	static void setOption(const std::string& option);
-	static void setQPixmap();
+	QString getPath() const;
+	QString getPathBackSide() const;
+
+	bool getIsPlayer() const;
+
+	static int getWidth();
+	static int getHeight();
+	static QPoint getEndPointPlayer();
+	static QPoint getEndPointDealer();
+	static void changeEndPointPlayer();
+	static void changeEndPointDealer();
+	static void setBackSideCategory(const QString&);
+	static void setFrontSideCategory(const QString&);
+	static bool isMoreThanOneCardFromDealer();
+	static void setMoreThanOneCardFromDealer(const bool);
+	static void resetEndPoints();
 
 private:
 	int value;
 	Suit suit;
-	std::shared_ptr<QRectF> boundingRect;
-	static std::shared_ptr<QPixmap> spriteImage;
-	static std::string option;
-	static QString path;
+	QString path;
+	QString file;
+
+	bool bPlayer = false;
+	bool bHide = false;
+	
+	static int width;
+	static int height;
+	static int shift;
+	static QPoint endPointPlayer;
+	static QPoint endPointDealer;
+	static QString backSideCategory;
+	static QString frontSideCategory;
+	static bool moreThanOneCardFromDealer;
 };

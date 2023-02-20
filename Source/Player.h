@@ -7,12 +7,14 @@ public:
 	bool playAgain() const override;
 	bool hit() const override;
 	bool stand() const override;
-	void increaseBet(const int bet);
+
 	int getBet() const;
 	int getCash() const;
-	void resetBet();
+	void getMoneyFromBet();
+	void placeBet();
+
+	void increaseBet(const int bet);
 
 private:
 	int cash = 500;
-	int bet = 0;
 };

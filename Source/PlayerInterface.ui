@@ -202,7 +202,7 @@ QPushButton:pressed {
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="labelBackground">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -489,7 +489,84 @@ QPushButton:pressed {
      <string>Reset</string>
     </property>
    </widget>
-   <zorder>label</zorder>
+   <widget class="QLabel" name="labelText">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>30</y>
+      <width>231</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>8514oem</family>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: white;</string>
+    </property>
+    <property name="text">
+     <string>Place Your Bets...</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonSetting">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>0</y>
+      <width>71</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>8514oem</family>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::WheelFocus</enum>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::CustomContextMenu</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    color: #333;
+    border: 2px solid #555;
+    border-radius: 20px;
+    border-style: outset;
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #888
+        );
+    padding: 5px;
+    }
+
+QPushButton:hover {
+    background: qradialgradient(
+        cx: 0.3, cy: -0.4, fx: 0.3, fy: -0.4,
+        radius: 1.35, stop: 0 #fff, stop: 1 #bbb
+        );
+    }
+
+QPushButton:pressed {
+    border-style: inset;
+    background: qradialgradient(
+        cx: 0.4, cy: -0.1, fx: 0.4, fy: -0.1,
+        radius: 1.35, stop: 0 #fff, stop: 1 #ddd
+        );
+    }</string>
+    </property>
+    <property name="text">
+     <string>☰</string>
+    </property>
+   </widget>
+   <zorder>labelBackground</zorder>
    <zorder>buttonPlayAgain</zorder>
    <zorder>buttonHit</zorder>
    <zorder>buttonStand</zorder>
@@ -503,6 +580,8 @@ QPushButton:pressed {
    <zorder>labelBet</zorder>
    <zorder>buttonDeal</zorder>
    <zorder>buttonReset</zorder>
+   <zorder>labelText</zorder>
+   <zorder>buttonSetting</zorder>
   </widget>
  </widget>
  <resources/>

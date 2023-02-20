@@ -3,9 +3,8 @@
 Deck::Deck()
 {
 	std::vector<Suit> suits = { Spades,	Hearts, Diamonds, Clubs };
-	Card::setQPixmap()
-		;
-	for (int i = 2; i <= 13; i++)
+
+	for (int i = 1; i <= 13; i++)
 	{
 		for (int j = 0; j < suits.size(); j++)
 		{
@@ -38,6 +37,5 @@ bool Deck::isEmpty()
 std::shared_ptr<Card> Deck::createNewCard(const int value,const Suit& suit)
 {
 	std::shared_ptr<Card> newCard = std::make_shared<Card>(value, suit);
-	newCard->setBoundingRect(suit, value);
 	return newCard;
 }

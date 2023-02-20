@@ -1,15 +1,27 @@
 ﻿#include "Card.h"
 
-std::string Card::option = "Option1";
-QString Card::path = QString::fromUtf8(std::format("border-image:url(Content/Images/Card/FrontSide/{}/frontside.jpg);", option).c_str());
-std::shared_ptr<QPixmap> Card::spriteImage;
+QString Card::backSideCategory = "Blue";
+QString Card::frontSideCategory = "Classical";
+
+int Card::width = 100;
+int Card::height = 130;
+int Card::shift = 30;
+
+QPoint Card::endPointPlayer = QPoint(shift, 100);
+QPoint Card::endPointDealer = QPoint(800 - Card::width - shift, 100);
+
+bool Card::moreThanOneCardFromDealer = false;
 
 Card::Card(int value, Suit suit)
 {
 	std::vector<PictureСard> pictureСards = { J, Q, K, Ace };
+	std::vector<std::string> suits = {	"Clubs", "Diamonds", "Hearts", "Spades"};
 
 	this->value = (value <= 10 ? value : pictureСards[value - 11]);
 	this->suit = suit;
+
+	file = QString::fromUtf8(std::to_string(value) + suits[(int)suit]);
+	path = QString("Content/Images/Card/FrontSide/%1/%2.png").arg(frontSideCategory).arg(file);
 }
 
 int Card::getValue() const
@@ -17,27 +29,93 @@ int Card::getValue() const
 	return value;
 }
 
-std::shared_ptr<QRectF> Card::getBoundingRect() const
+bool Card::getIsHide() const
 {
-	return boundingRect;
+	return bHide;
 }
 
-void Card::setBoundingRect(const Suit& suit, const int pictureСard)
+void Card::setPlayer(const bool bPlayer)
 {
-	int cardWidth = spriteImage->width() / 13;
-	int cardHeight = spriteImage->height() / 4;
-
-	boundingRect = std::make_shared<QRectF>();
-	boundingRect->setRect(pictureСard * cardWidth, suit * cardHeight, cardWidth, cardHeight);
+	this->bPlayer = bPlayer;
 }
 
-void Card::setOption(const std::string& newOption)
+void Card::setHide()
 {
-	option = newOption;
+	this->bHide = true;
 }
 
-void Card::setQPixmap()
+void Card::setShow()
 {
-	spriteImage = std::make_shared<QPixmap>(path);
+	this->bHide = false;
 }
 
+QString Card::getPath() const
+{
+	return 	QString("Content/Images/Card/FrontSide/%1/%2.png").arg(frontSideCategory).arg(file);
+}
+
+QString Card::getPathBackSide() const
+{
+	return QString("Content/Images/Card/BackSide/%1/backside.jpg").arg(backSideCategory);
+}
+
+bool Card::getIsPlayer() const
+{
+	return bPlayer;
+}
+
+int Card::getWidth()
+{
+	return width;
+}
+
+int Card::getHeight()
+{
+	return height;
+}
+
+QPoint Card::getEndPointPlayer()
+{
+	return endPointPlayer;
+}
+
+QPoint Card::getEndPointDealer()
+{
+	return endPointDealer;
+}
+
+void Card::changeEndPointPlayer()
+{
+	endPointPlayer.setX(endPointPlayer.x() + shift);
+}
+
+void Card::changeEndPointDealer()
+{
+	endPointDealer.setX(endPointDealer.x() - shift);
+}
+
+void Card::setBackSideCategory(const QString& newBackSideCategory)
+{
+	backSideCategory = newBackSideCategory;
+}
+
+void Card::setFrontSideCategory(const QString& newFrontSideCategory)
+{
+	frontSideCategory = newFrontSideCategory;
+}
+
+bool Card::isMoreThanOneCardFromDealer()
+{
+	return moreThanOneCardFromDealer;
+}
+
+void Card::setMoreThanOneCardFromDealer(const bool bMoreThanOneCardFromDealer)
+{
+	moreThanOneCardFromDealer = bMoreThanOneCardFromDealer;
+}
+
+void Card::resetEndPoints()
+{
+	endPointPlayer = QPoint(shift, 100);
+	endPointDealer = QPoint(800 - Card::width - shift, 100);
+}

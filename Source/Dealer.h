@@ -7,7 +7,4 @@ public:
 	bool playAgain() const override;
 	bool hit() const override;
 	bool stand() const override;
-
-private:
-
 };
