@@ -8,6 +8,7 @@
 #include "ui_playerinterface.h"
 #include "Player.h"
 #include "Card.h"
+#include "Audio.h"
 
 class PlayerInterface;
 
@@ -41,6 +42,8 @@ public slots:
 private:
 	void showButton(QPushButton* button, bool bShow);
 	bool checkLimit(const int additionalBet) const;
+	bool checkExcess21() const;
+	bool checkGameOver() const;
 	void addAnimation(const std::shared_ptr<QLabel>, const QRect& endVale);
 	void changeTextLabelBet();
 	void changeTextLabelCash();
@@ -52,6 +55,7 @@ private:
 	QPoint endPoint;
 	std::shared_ptr<Player> player;		
 	std::shared_ptr<Setting> setting;
+	std::shared_ptr<Audio> audio;
 	std::shared_ptr<QLabel> labelCard;
 	std::map<std::shared_ptr<Card>, std::shared_ptr<QLabel>> cardsOnTheScreen;
 

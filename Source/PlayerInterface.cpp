@@ -1,4 +1,6 @@
 ﻿#include "PlayerInterface.h"
+#include "Audio.h"
+
 #include <QRect>
 #include <QTimer>
 
@@ -6,6 +8,11 @@ PlayerInterface::PlayerInterface(QWidget* parent) : QMainWindow(parent)
 {
 	gameWindow.setupUi(this);
     setting = std::make_shared<Setting>();
+    audio = std::make_shared<Audio>();
+
+    audio->playSoundBackground();
+    audio->playSoundCardShuffle();
+
     this->show();
 
     showButton(gameWindow.buttonPlayAgain, false);
@@ -27,7 +34,6 @@ PlayerInterface::PlayerInterface(QWidget* parent) : QMainWindow(parent)
     connect(gameWindow.buttonChip25, SIGNAL(released()), this, SLOT(pushButtonChip25()));
 
     connect(gameWindow.buttonSetting, SIGNAL(released()), this, SLOT(pushButtonSetting()));
-
 }
 
 void PlayerInterface::setPlayer(const std::shared_ptr<Player> player)
@@ -119,24 +125,38 @@ void PlayerInterface::playAgain()
 {
     showButton(gameWindow.buttonPlayAgain, false);
 
-    showButton(gameWindow.buttonDeal, true);
-    showButton(gameWindow.buttonReset, true);
-
-    showButton(gameWindow.buttonChip1, true);
-    showButton(gameWindow.buttonChip2, true);
-    showButton(gameWindow.buttonChip5, true);
-    showButton(gameWindow.buttonChip10, true);
-    showButton(gameWindow.buttonChip25, true);
+    audio->playSoundButtonPress();
 
     clearTheCardTable();
     changeTextLabelCash();
     changeTextLabelBet();
-    changeTextLabel("Place Your Bets...");
+
+    if (checkGameOver())
+    {
+        changeTextLabel("Your balance is 0, Game Over !!!");
+    }
+    else
+    {
+
+        showButton(gameWindow.buttonChip1, true);
+        showButton(gameWindow.buttonChip2, true);
+        showButton(gameWindow.buttonChip5, true);
+        showButton(gameWindow.buttonChip10, true);
+        showButton(gameWindow.buttonChip25, true);
+        changeTextLabel("Place Your Bets...");
+    }
+
 }
 
 void PlayerInterface::hit()
 {
     game->cardsDistribution(1);
+    audio->playSoundButtonPress();
+
+    if (checkExcess21())
+    {
+        stand();
+    }
 }
 
 void PlayerInterface::stand()
@@ -144,8 +164,8 @@ void PlayerInterface::stand()
     showButton(gameWindow.buttonHit, false);
     showButton(gameWindow.buttonStand, false);
 
+    audio->playSoundButtonPress();
     player->setStand(true);
-
     game->cardsDistribution(1);
 }
 
@@ -165,6 +185,7 @@ void PlayerInterface::deal()
     showButton(gameWindow.buttonChip10, false);
     showButton(gameWindow.buttonChip25, false);
 
+    audio->playSoundButtonPress();
     player->placeBet();
     changeTextLabelCash();
     changeTextLabelBet();
@@ -175,6 +196,7 @@ void PlayerInterface::deal()
 
 void PlayerInterface::reset()
 {
+    audio->playSoundButtonPress();
     player->resetBet();
     changeTextLabelBet();
     showButton(gameWindow.buttonDeal, false);
@@ -233,6 +255,7 @@ void PlayerInterface::pushButtonChip25()
 
 void PlayerInterface::pushButtonSetting()
 {
+    audio->playSoundButtonPress();
     setting->setPlayerInterface(this);
     setting->show();
 }
@@ -287,4 +310,14 @@ void PlayerInterface::showButton(QPushButton* button, bool bShow)
 bool PlayerInterface::checkLimit(const int additionalBet) const
 {
     return player->getBet() + additionalBet <= player->getCash();
+}
+
+bool PlayerInterface::checkExcess21() const
+{
+    return player->getCash() >= 21;
+}
+
+bool PlayerInterface::checkGameOver() const
+{
+    return player->getCash() <= 0;
 }

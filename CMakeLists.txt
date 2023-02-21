@@ -14,7 +14,8 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_PREFIX_PATH "C:/Qt/6.4.1/msvc2019_64/lib/cmake")
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia)
+
 qt_standard_project_setup()
 
 file(GLOB libs "${PROJECT_SOURCE_DIR}/Lib/*")
@@ -27,7 +28,7 @@ include_directories("Source")
 
 add_executable (Blackjack ${source_files})
 
-target_link_libraries(Blackjack PRIVATE Qt6::Widgets)
+target_link_libraries(Blackjack PRIVATE Qt6::Widgets Qt6::Multimedia)
 
 set_target_properties(Blackjack PROPERTIES
     WIN32_EXECUTABLE ON

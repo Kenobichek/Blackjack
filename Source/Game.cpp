@@ -27,7 +27,7 @@ void Game::cardsDistribution(const int numberCards)
 	{
 		findWinner();
 		resetPlayerCharacteristic();
-		Card::setMoreThanOneCardFromDealer(true);
+		Card::setMoreThanOneCardFromDealer(false);
 	}
 	else
 	{
