@@ -1,9 +1,15 @@
 #include "Audio.h"
 
+Audio::~Audio()
+{
+	delete player;
+	delete audioOutput;
+}
+
 void Audio::playSoundBackground()
 {
 	audioOutput = new QAudioOutput();
-	audioOutput->setVolume(20);
+	audioOutput->setVolume(10);
 
 	player = new QMediaPlayer();
 	player->setAudioOutput(audioOutput);

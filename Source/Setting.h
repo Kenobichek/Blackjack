@@ -12,6 +12,8 @@ class Setting : public QMainWindow {
 
 public:
 	Setting(QWidget* parent = Q_NULLPTR);
+	~Setting();
+
 	void setPlayerInterface(PlayerInterface*);
 
 public slots:

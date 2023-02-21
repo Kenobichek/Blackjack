@@ -20,9 +20,11 @@ class PlayerInterface : public QMainWindow {
 
 public:
 	PlayerInterface(QWidget* parent = Q_NULLPTR);
+	~PlayerInterface();
+
 	void setPlayer(const std::shared_ptr<Player> player);
 	void setGame(Game* game);
-	void displayCard(const std::shared_ptr<Card> card, const int delay = 0);
+	void displayCard(const std::shared_ptr<Card> card);
 	void finishMove(const bool bWin);
 	void changeCardsInteface();
 

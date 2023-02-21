@@ -1,10 +1,12 @@
 #pragma once
+#include <vector>
 
 class AbstractPlayer
 {
 public:
-	//virtual ~AbstractPlayer() = 0;
-	void increasePoints(const int points);
+	virtual ~AbstractPlayer() {}
+
+	void increasePoints(const int point);
 	int getPoints() const;
 	bool isStand() const;
 	void setStand(const bool bStand);
@@ -14,10 +16,14 @@ public:
 
 	virtual bool playAgain() const = 0;
 	virtual bool hit() const = 0;
-	virtual bool stand() const = 0;
+	virtual bool shouldStand() const = 0;
 
 protected:
-	int points = 0;
+	std::vector<int> points;
 	int bet = 0;
 	bool bStand = false;
+
+private:
+	void addAceInToPoints();
+	void addPointInToPoints(const int point);
 };

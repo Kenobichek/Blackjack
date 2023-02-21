@@ -7,9 +7,10 @@ class Deck
 {
 public:
 	explicit Deck();
-	void shuffler();
+	void shuffle();
+	void reshuffle();
+	bool isEmpty() const;
 	std::shared_ptr<Card> getCard();
-	bool isEmpty();
 
 private:
 	std::shared_ptr<Card> createNewCard(const int, const Suit&);

@@ -4,7 +4,9 @@
 class Dealer : public AbstractPlayer
 {
 public:
+	~Dealer() {}
+
 	bool playAgain() const override;
 	bool hit() const override;
-	bool stand() const override;
+	bool shouldStand() const override;
 };

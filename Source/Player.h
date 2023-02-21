@@ -4,9 +4,11 @@
 class Player : public AbstractPlayer
 {
 public:
+	~Player() {}
+
 	bool playAgain() const override;
 	bool hit() const override;
-	bool stand() const override;
+	bool shouldStand() const override;
 
 	int getBet() const;
 	int getCash() const;

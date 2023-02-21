@@ -1,8 +1,7 @@
-#include "Game.h"
+﻿#include "Game.h"
 #include "Player.h"
 #include "Dealer.h"
 #include <memory>
-#include <iostream>
 
 Game::Game()
 {
@@ -16,13 +15,15 @@ Game::Game()
 	}
 
 	players.push_back(std::make_shared<Dealer>());
+
 	deck = std::make_shared<Deck>();
-	deck->shuffler();
+	deck->shuffle();
 }
 
 void Game::cardsDistribution(const int numberCards)
 {
 	dealerMove();
+
 	if (checkGameIsOver())
 	{
 		findWinner();
@@ -86,7 +87,7 @@ void Game::playersCardsDistribution(const int numberCards)
 
 			players[i]->increasePoints(card->getValue());
 			card->setPlayer(true);
-			playerInterface[i]->displayCard(card, j);
+			playerInterface[i]->displayCard(card);
 			Card::changeEndPointPlayer();
 		}
 	}
@@ -103,10 +104,11 @@ void Game::dealerCardsDistribution(const int numberCards)
 		if (Card::isMoreThanOneCardFromDealer()) card->setHide();
 		else Card::setMoreThanOneCardFromDealer(true);
 
+		players[numberPlayers]->increasePoints(card->getValue());
+
 		for (int j = 0; j < numberPlayers; j++)
 		{
-			players[numberPlayers]->increasePoints(card->getValue());
-			playerInterface[j]->displayCard(card, i + numberCards);
+			playerInterface[j]->displayCard(card);
 			Card::changeEndPointDealer();
 		}
 	}
@@ -114,7 +116,7 @@ void Game::dealerCardsDistribution(const int numberCards)
 
 void Game::dealerMove()
 {
-	if (players[numberPlayers]->stand())
+	if (players[numberPlayers]->shouldStand())
 	{
 		players[numberPlayers]->setStand(true);
 	}

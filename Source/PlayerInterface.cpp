@@ -36,6 +36,11 @@ PlayerInterface::PlayerInterface(QWidget* parent) : QMainWindow(parent)
     connect(gameWindow.buttonSetting, SIGNAL(released()), this, SLOT(pushButtonSetting()));
 }
 
+PlayerInterface::~PlayerInterface()
+{
+    delete animation;
+}
+
 void PlayerInterface::setPlayer(const std::shared_ptr<Player> player)
 {
     this->player = player;
@@ -47,10 +52,9 @@ void PlayerInterface::setGame(Game* game)
     this->game = game;
 }
 
-void PlayerInterface::displayCard(const std::shared_ptr<Card> card, const int delay)
+void PlayerInterface::displayCard(const std::shared_ptr<Card> card)
 {
     labelCard = createLabelCard(card);
-    labelCard->isVisible();
     labelCard->show();
 
     endPoint = card->getIsPlayer() ? card->getEndPointPlayer() : card->getEndPointDealer();
@@ -58,8 +62,11 @@ void PlayerInterface::displayCard(const std::shared_ptr<Card> card, const int de
 
     cardsOnTheScreen.insert({ card, labelCard });
 
-    if(player->isStand()) 
+    if (player->isStand())
+    {
         game->cardsDistribution(1);
+        Card::changeEndPointDealer();
+    }
 }
 
 void PlayerInterface::finishMove(const bool bWin)
@@ -133,19 +140,19 @@ void PlayerInterface::playAgain()
 
     if (checkGameOver())
     {
-        changeTextLabel("Your balance is 0, Game Over !!!");
+        changeTextLabel("Game Over !!!");
     }
     else
     {
-
         showButton(gameWindow.buttonChip1, true);
         showButton(gameWindow.buttonChip2, true);
         showButton(gameWindow.buttonChip5, true);
         showButton(gameWindow.buttonChip10, true);
         showButton(gameWindow.buttonChip25, true);
+
         changeTextLabel("Place Your Bets...");
     }
-
+    cardsOnTheScreen.clear();
 }
 
 void PlayerInterface::hit()

@@ -22,6 +22,7 @@ class Card
 {
 public:
 	explicit Card(int, Suit);
+
 	int getValue() const;
 	bool getIsHide() const;
 	void setPlayer(const bool bPlayer);

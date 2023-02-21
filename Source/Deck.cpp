@@ -1,4 +1,6 @@
 ﻿#include "Deck.h"
+#include <algorithm>
+#include <random>
 
 Deck::Deck()
 {
@@ -13,23 +15,41 @@ Deck::Deck()
 	}
 }
 
-void Deck::shuffler()
+void Deck::shuffle()
 {
-	srand(time(NULL));
-	for (int i = 0; i < deck.size(); i++)
+	static auto rd = std::random_device{};
+	static auto rng = std::default_random_engine{ rd() };
+
+	std::shuffle(std::begin(deck), std::end(deck), rng);
+}
+
+void Deck::reshuffle()
+{
+	std::vector<Suit> suits = { Spades,	Hearts, Diamonds, Clubs };
+
+	for (int i = 1; i <= 13; i++)
 	{
-		std::swap(deck[i], deck[rand() % deck.size()]);
+		for (int j = 0; j < suits.size(); j++)
+		{
+			deck.push_back(createNewCard(i, suits[j]));
+		}
 	}
+
+	shuffle();
 }
 
 std::shared_ptr<Card> Deck::getCard()
 {
 	auto card = deck.front();
 	deck.erase(deck.begin());
+	if (isEmpty())
+	{
+		reshuffle();
+	}
 	return card;
 }
 
-bool Deck::isEmpty()
+bool Deck::isEmpty() const
 {
 	return deck.empty();
 }

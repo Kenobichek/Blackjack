@@ -10,7 +10,7 @@ bool Player::hit() const
 	return true;
 }
 
-bool Player::stand() const
+bool Player::shouldStand() const
 {
 	return true;
 }

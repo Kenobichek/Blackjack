@@ -9,6 +9,10 @@ Setting::Setting(QWidget* parent) : QMainWindow(parent)
 	connect(settingWindow.comboBoxFrontSide, QOverload<int>::of(&QComboBox::activated), this, &Setting::pushComboBoxFrontSide);
 }
 
+Setting::~Setting()
+{
+}
+
 void Setting::setPlayerInterface(PlayerInterface* playerInterface)
 {
 	this->playerInterface = playerInterface;

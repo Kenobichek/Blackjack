@@ -7,10 +7,10 @@ bool Dealer::playAgain() const
 
 bool Dealer::hit() const
 {
-	return points < 17;
+	return getPoints() < 17;
 }
 
-bool Dealer::stand() const
+bool Dealer::shouldStand() const
 {
-	return points >= 17;
+	return getPoints() >= 17;
 }
