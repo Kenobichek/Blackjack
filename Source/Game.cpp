@@ -85,6 +85,12 @@ void Game::playersCardsDistribution(const int numberCards)
 		{
 			std::shared_ptr<Card> card = deck->getCard();
 
+			if (deck->isEmpty())
+			{
+				deck->reshuffle();
+				playerInterface[i]->getAudio()->playSoundCardShuffle();
+			}
+
 			players[i]->increasePoints(card->getValue());
 			card->setPlayer(true);
 			playerInterface[i]->displayCard(card);
@@ -100,6 +106,12 @@ void Game::dealerCardsDistribution(const int numberCards)
 	for (int i = 0; i < numberCards; i++)
 	{
 		std::shared_ptr<Card> card = deck->getCard();
+
+		if (deck->isEmpty())
+		{
+			deck->reshuffle();
+			playerInterface[i]->getAudio()->playSoundCardShuffle();
+		}
 
 		if (Card::isMoreThanOneCardFromDealer()) card->setHide();
 		else Card::setMoreThanOneCardFromDealer(true);

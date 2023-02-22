@@ -27,6 +27,7 @@ public:
 	void displayCard(const std::shared_ptr<Card> card);
 	void finishMove(const bool bWin);
 	void changeCardsInteface();
+	std::shared_ptr<Audio> getAudio();
 
 public slots:
 	void playAgain();
@@ -52,6 +53,7 @@ private:
 	void changeTextLabel(const QString);
 	void showAllCards();
 	void clearTheCardTable();
+	void pushChip(const int val);
 	std::shared_ptr<QLabel> createLabelCard(const std::shared_ptr<Card> card);
 
 	QPoint endPoint;
@@ -61,8 +63,8 @@ private:
 	std::shared_ptr<QLabel> labelCard;
 	std::map<std::shared_ptr<Card>, std::shared_ptr<QLabel>> cardsOnTheScreen;
 
+	std::vector<std::shared_ptr<QPropertyAnimation>> animations;
 	QLabel* card;
-	QPropertyAnimation* animation;
 	Game* game;
 	Ui::MainWindow gameWindow;
 };

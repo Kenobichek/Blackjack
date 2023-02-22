@@ -42,10 +42,6 @@ std::shared_ptr<Card> Deck::getCard()
 {
 	auto card = deck.front();
 	deck.erase(deck.begin());
-	if (isEmpty())
-	{
-		reshuffle();
-	}
 	return card;
 }
 

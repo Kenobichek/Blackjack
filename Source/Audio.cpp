@@ -13,6 +13,7 @@ void Audio::playSoundBackground()
 
 	player = new QMediaPlayer();
 	player->setAudioOutput(audioOutput);
+	player->setLoops(-1);
 
 	QUrl mediaUrl = QUrl::fromLocalFile("Content/Audio/background.mp3");
 	player->setSource(mediaUrl);
@@ -54,6 +55,19 @@ void Audio::playSoundCardShuffle()
 	player->setAudioOutput(audioOutput);
 
 	QUrl mediaUrl = QUrl::fromLocalFile("Content/Audio/card_shuffle.mp3");
+	player->setSource(mediaUrl);
+	player->play();
+}
+
+void Audio::playSoundMoney()
+{
+	audioOutput = new QAudioOutput();
+	audioOutput->setVolume(50);
+
+	player = new QMediaPlayer();
+	player->setAudioOutput(audioOutput);
+
+	QUrl mediaUrl = QUrl::fromLocalFile("Content/Audio/money.mp3");
 	player->setSource(mediaUrl);
 	player->play();
 }

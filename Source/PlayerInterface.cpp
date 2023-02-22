@@ -38,7 +38,6 @@ PlayerInterface::PlayerInterface(QWidget* parent) : QMainWindow(parent)
 
 PlayerInterface::~PlayerInterface()
 {
-    delete animation;
 }
 
 void PlayerInterface::setPlayer(const std::shared_ptr<Player> player)
@@ -65,7 +64,6 @@ void PlayerInterface::displayCard(const std::shared_ptr<Card> card)
     if (player->isStand())
     {
         game->cardsDistribution(1);
-        Card::changeEndPointDealer();
     }
 }
 
@@ -73,12 +71,12 @@ void PlayerInterface::finishMove(const bool bWin)
 {
     if (bWin)
     {
-        changeTextLabel("You Win !!!");
+        changeTextLabel("You Won !!!");
         player->getMoneyFromBet();
     }
     else
     {
-        changeTextLabel("You Lose !!!");
+        changeTextLabel("You Lost !!!");
     }
 
     showAllCards();
@@ -104,6 +102,11 @@ void PlayerInterface::changeCardsInteface()
     }
 }
 
+std::shared_ptr<Audio> PlayerInterface::getAudio()
+{
+    return audio;
+}
+
 std::shared_ptr<QLabel> PlayerInterface::createLabelCard(const std::shared_ptr<Card> card)
 {
     std::shared_ptr<QLabel> labelCard = std::make_shared<QLabel>(this);
@@ -121,11 +124,11 @@ std::shared_ptr<QLabel> PlayerInterface::createLabelCard(const std::shared_ptr<C
 
 void PlayerInterface::addAnimation(const std::shared_ptr<QLabel> label, const QRect& endVale)
 {
-    animation = new QPropertyAnimation(label.get(), "geometry");
-    animation->setDuration(400);
-    animation->setStartValue(label->geometry());
-    animation->setEndValue(endVale);
-    animation->start();
+    animations.push_back(std::make_shared<QPropertyAnimation>(label.get(), "geometry"));
+    animations.back()->setDuration(400);
+    animations.back()->setStartValue(label->geometry());
+    animations.back()->setEndValue(endVale);
+    animations.back()->start();
 }
 
 void PlayerInterface::playAgain()
@@ -215,6 +218,7 @@ void PlayerInterface::pushButtonChip1()
     if(!checkLimit(1)) return;
 
     player->increaseBet(1);
+    audio->playSoundMoney();
     changeTextLabelBet();
     showButton(gameWindow.buttonDeal, true);
     showButton(gameWindow.buttonReset, true);
@@ -223,41 +227,25 @@ void PlayerInterface::pushButtonChip1()
 void PlayerInterface::pushButtonChip2()
 {
     if (!checkLimit(2)) return;
-
-    player->increaseBet(2);
-    changeTextLabelBet();
-    showButton(gameWindow.buttonDeal, true);
-    showButton(gameWindow.buttonReset, true);
+    pushChip(2);
 }
 
 void PlayerInterface::pushButtonChip5()
 {
     if (!checkLimit(5)) return;
-
-    player->increaseBet(5);
-    changeTextLabelBet();
-    showButton(gameWindow.buttonDeal, true);
-    showButton(gameWindow.buttonReset, true);
+    pushChip(5);
 }
 
 void PlayerInterface::pushButtonChip10()
 {
     if (!checkLimit(10)) return;
-
-    player->increaseBet(10);
-    changeTextLabelBet();
-    showButton(gameWindow.buttonDeal, true);
-    showButton(gameWindow.buttonReset, true);
+    pushChip(10);
 }
 
 void PlayerInterface::pushButtonChip25()
 {
     if (!checkLimit(25)) return;
-
-    player->increaseBet(25);
-    changeTextLabelBet();
-    showButton(gameWindow.buttonDeal, true);
-    showButton(gameWindow.buttonReset, true);
+    pushChip(25);
 }
 
 void PlayerInterface::pushButtonSetting()
@@ -309,6 +297,15 @@ void PlayerInterface::clearTheCardTable()
     cardsOnTheScreen.clear();
 }
 
+void PlayerInterface::pushChip(const int val)
+{
+    player->increaseBet(val);
+    audio->playSoundMoney();
+    changeTextLabelBet();
+    showButton(gameWindow.buttonDeal, true);
+    showButton(gameWindow.buttonReset, true);
+}
+
 void PlayerInterface::showButton(QPushButton* button, bool bShow)
 {
     return bShow ? button->show() : button->hide();
@@ -321,7 +318,7 @@ bool PlayerInterface::checkLimit(const int additionalBet) const
 
 bool PlayerInterface::checkExcess21() const
 {
-    return player->getCash() >= 21;
+    return player->getPoints() >= 21;
 }
 
 bool PlayerInterface::checkGameOver() const

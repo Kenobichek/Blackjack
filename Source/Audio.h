@@ -12,6 +12,7 @@ public:
 	void playSoundButtonPress();
 	void playSoundCardDistribution();
 	void playSoundCardShuffle();
+	void playSoundMoney();
 
 private:
 	QMediaPlayer* player;
